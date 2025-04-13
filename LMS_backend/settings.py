@@ -163,5 +163,6 @@ INTERNAL_IPS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-   "http://localhost:5173"
+   "http://localhost:5173",
+   "https://library-management-system-zlqs.onrender.com"
 ]
