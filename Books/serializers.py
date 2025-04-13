@@ -66,3 +66,32 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Books
         fields = '__all__'
+
+#serializers to manage reservations
+class ReservationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reservations
+        fields = ['id', 'copies','contact','reservation_date','status', 'user', 'book']
+
+    def to_representation(self, instance):
+        response =  super().to_representation(instance)
+        response['user'] = UserSerializer(instance.user).data
+        response['book'] = BookSerializer(instance.book).data
+        return response
+    
+#user resevertions
+class ReservationsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reservations
+        fields = ['id', 'copies','contact','reservation_date','status', 'book']
+
+    def to_representation(self, instance):
+        response =  super().to_representation(instance)
+        response['book'] = BookSerializer(instance.book).data
+        return response
+
+class UserReservationSerializer(serializers.ModelSerializer):
+    reserve = ReservationsSerializer(read_only=True, many=True)
+    class Meta:
+        model = User
+        fields = ['id', 'reserve']

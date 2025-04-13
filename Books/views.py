@@ -83,7 +83,7 @@ class DeactivateUser(APIView):
 
                     serializer = self.serializer_class(user)
                     return Response(serializer.data)
-          except Appointment.DoesNotExist:
+          except User.DoesNotExist:
                     return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -145,5 +145,35 @@ class DeleteBook(generics.RetrieveDestroyAPIView):
         book = self.get_object()
         book.delete()
         return Response({"err: book deleted successfully"}, status=status.HTTP_200_OK)
+    
+#===========================reservation views=========================
+#list user resevations
+@api_view(['GET'])
+def UserReservations(request, user_id):
+     try:
+          user = User.objects.prefetch_related('reserve', 'reserve__book').get(id=user_id)
+     except User.DoesNotExist:
+          return Response({"err:user not found"})
+     if request.method == 'GET':
+          serializer = UserReservationSerializer(user)
+          return Response(serializer.data, status=status.HTTP_200_OK)
+     
+#create reservations
+class PostReservations(generics.CreateAPIView):
+     queryset = Reservations.objects.all()
+     serializer_class = ReservationSerializer
+     permission_classes = [IsAuthenticated]
+
+#delete reservation
+class DeleteReservation(generics.RetrieveDestroyAPIView):
+     queryset = Reservations.objects.all()
+     serializer_class = ReservationSerializer
+     permission_classes = [IsAuthenticated]
+
+     def delete(self, request, *args, **kwargs):
+          instance = self.get_object()
+          instance.delete()
+          return Response({"msg:reservation deleted successfully"})
+     
 
 

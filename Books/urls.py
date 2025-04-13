@@ -18,4 +18,9 @@ urlpatterns = [
     path('deactivate_user/<int:pk>', DeactivateUser.as_view()),
     path('update_user/<int:pk>',UpdateUser.as_view()),
     path('single_user/<int:pk>', SingleUser.as_view()),
+
+    #======================paths for reservations====================
+    path('user_reservations/<int:user_id>', UserReservations),
+    path('post_reservations', PostReservations.as_view()),
+    path('delete_reservation/<int:pk>', DeleteReservation.as_view()),
 ] 
