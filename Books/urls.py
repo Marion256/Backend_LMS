@@ -23,4 +23,6 @@ urlpatterns = [
     path('user_reservations/<int:user_id>', UserReservations),
     path('post_reservations', PostReservations.as_view()),
     path('delete_reservation/<int:pk>', DeleteReservation.as_view()),
+    path('list_reservations', ListReservations.as_view()),
+    path('change_status/<int:pk>', ChangeStatus.as_view())
 ] 

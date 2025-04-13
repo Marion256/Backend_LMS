@@ -147,6 +147,13 @@ class DeleteBook(generics.RetrieveDestroyAPIView):
         return Response({"err: book deleted successfully"}, status=status.HTTP_200_OK)
     
 #===========================reservation views=========================
+#list all reservations
+class ListReservations(generics.ListAPIView):
+    queryset = Reservations.objects.all()
+    serializer_class = ReservationSerializer
+    pagination_class = None
+    permission_classes = [IsAuthenticated]
+
 #list user resevations
 @api_view(['GET'])
 def UserReservations(request, user_id):
@@ -174,6 +181,29 @@ class DeleteReservation(generics.RetrieveDestroyAPIView):
           instance = self.get_object()
           instance.delete()
           return Response({"msg:reservation deleted successfully"})
+     
+#chnage reservation status
+class ChangeStatus(APIView):
+     queryset = Reservations.objects.all()
+     serializer_class = ReservationSerializer
+     permission_classes = [IsAuthenticated]
+
+     def patch(self, request, *args, **kwargs):
+          reserve_id = kwargs.get('pk')
+          status = request.data.get('status')
+
+          try:
+               with transaction.atomic():
+                    reserve = Reservations.objects.get(pk=reserve_id)
+                    reserve.status = status
+                    reserve.save()
+
+                    serializer = self.serializer_class(reserve)
+                    return Response(serializer.data)
+          except Reservations.DoesNotExist:
+                    return Response({'error': 'Reservation not found'}, status=status.HTTP_404_NOT_FOUND)
+
+     
      
 
 
