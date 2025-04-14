@@ -171,6 +171,16 @@ class PostReservations(generics.CreateAPIView):
      serializer_class = ReservationSerializer
      permission_classes = [IsAuthenticated]
 
+#Borrowed Books
+class BorrowedBooks(generics.ListAPIView):
+    serializer_class = ReservationSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = None
+
+    def get_queryset(self):
+        # Filter reservations by the current authenticated user and status 'Taken'
+        return Reservations.objects.filter(user=self.request.user, status='Taken')
+
 #delete reservation
 class DeleteReservation(generics.RetrieveDestroyAPIView):
      queryset = Reservations.objects.all()
@@ -182,7 +192,7 @@ class DeleteReservation(generics.RetrieveDestroyAPIView):
           instance.delete()
           return Response({"msg:reservation deleted successfully"})
      
-#chnage reservation status
+#change reservation status
 class ChangeStatus(APIView):
      queryset = Reservations.objects.all()
      serializer_class = ReservationSerializer

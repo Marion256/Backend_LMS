@@ -2,6 +2,7 @@
 from pathlib import Path
 from datetime import timedelta
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,10 +78,9 @@ WSGI_APPLICATION = 'LMS_backend.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='postgresql://library_system_ykoh_user:xoC2BIQ2hnCCyHS2bDI3PNxyJED40yt4@dpg-cvumdibuibrs738cdkk0-a.oregon-postgres.render.com/library_system_ykoh'
+       )
 }
 
 
@@ -166,3 +166,11 @@ CORS_ALLOWED_ORIGINS = [
    "http://localhost:5173",
    "https://library-management-system-zlqs.onrender.com"
 ]
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # or your email provider
+EMAIL_PORT = 587  # or 465 for SSL
+EMAIL_USE_TLS = True  # or False for SSL
+EMAIL_HOST_USER = 'agrilink143@gmail.com'
+EMAIL_HOST_PASSWORD = 'mmxj qbjf xpxn ceez'
