@@ -166,11 +166,3 @@ CORS_ALLOWED_ORIGINS = [
    "http://localhost:5173",
    "https://library-management-system-zlqs.onrender.com"
 ]
-
-# Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # or your email provider
-EMAIL_PORT = 587  # or 465 for SSL
-EMAIL_USE_TLS = True  # or False for SSL
-EMAIL_HOST_USER = 'agrilink143@gmail.com'
-EMAIL_HOST_PASSWORD = 'mmxj qbjf xpxn ceez'
