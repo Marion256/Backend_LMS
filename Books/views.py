@@ -25,7 +25,7 @@ class RegisterUser(generics.CreateAPIView):
 #================manage users====================
 #list users
 class ListUsers(generics.ListAPIView):
-    queryset = User.objects.filter(is_customer=True)
+    queryset = User.objects.filter(is_customer=True).order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
     pagination_class = None
